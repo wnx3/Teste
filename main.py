@@ -1,6 +1,6 @@
 import requests
 import hashlib
-import PySimpleGUI as sg
+import subprocess
 import time
 
 def check_and_update_code():
@@ -22,25 +22,22 @@ def check_and_update_code():
         if local_hash != github_hash:
             with open(local_path, 'w', encoding='utf-8') as f:
                 f.write(github_version)
-            sg.popup('Bot atualizado com sucesso. Reiniciando...')
-            raise Exception('Abra novamente.')
+            print('Bot atualizado com sucesso. Reiniciando...')
+            return True
+
+    return False
 
 def main():
-    sg.theme('DarkGrey14')
-    layout = [
-        [sg.Text("Bot em execução.", font=('Open Sans', 10))]
-    ]
-    window = sg.Window("Bot", layout)
-
     while True:
-        check_and_update_code()  # Verifica e atualiza no início de cada iteração
+        if check_and_update_code():
+            # Se houve uma atualização, reinicie o bot automaticamente
+            subprocess.run(["python", "main.py"])  # Substitua "SEU_ARQUIVO_PRINCIPAL.py" pelo nome do seu arquivo principal
+            break  # Este ponto só será alcançado se o subprocess.run for concluído
 
-        event, values = window.read(timeout=1000)  # verifica a cada segundo
-
-        if event == sg.WIN_CLOSED:
-            break
-
-    window.close()
+        # Coloque aqui o restante do seu código principal
+        print("Código principal sendo executado...")
+        time.sleep(1)  # Adicione algum tipo de operação principal aqui
+        print("2")
 
 if __name__ == "__main__":
     main()
