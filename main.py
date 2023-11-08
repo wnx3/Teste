@@ -37,7 +37,7 @@ def main():
         # Coloque aqui o restante do seu código principal
         print("Código principal sendo executado...")
         time.sleep(1)  # Adicione algum tipo de operação principal aqui
-        print("2")
+        print("1")
 
 if __name__ == "__main__":
     main()
